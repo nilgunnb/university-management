@@ -11,15 +11,32 @@ public abstract class Person {
     private String email;
     private final LocalDate dateOfBirth;
 
-    protected Person(int id, String fullName, String address, String phone, String email, LocalDate dateOfBirth) {
-        this.id = id;
-        this.fullName = fullName;
-        this.address = address;
-        this.phone = phone;
-        this.email = email;
-        this.dateOfBirth = dateOfBirth;
-    }
+            protected Person(int id, String fullName, String address, String phone, String email, LocalDate dateOfBirth) {
+            
+            if (id < 0){
+                throw new IllegalArgumentException("Id should be positive number");
+            }
+            this.id = id;
+            if (dateOfBirth == LocalDate.now()){
+                throw new IllegalArgumentException("Invalid date of birth");
 
+            }
+            this.dateOfBirth = dateOfBirth;
+            
+            if (!fullName.matches("^[A-Za-z ]+$")){
+                throw new IllegalArgumentException("Fullname must contain only letters and space.");
+            }
+            this.fullName = fullName;
+            if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")){
+                throw new IllegalArgumentException("Invalid email adress.");
+            }
+            this.email = email;
+            this.address = address;
+            if (!phone.matches("^\\+?[1-9]\\d{1,14}$")){
+                throw new IllegalArgumentException("The phone numbers too short or contains leading zeros or contains letters.");
+            }
+            this.phone = phone;
+        }
     protected Person(int id, String fullName, LocalDate dateOfBirth) {
         this.id = id;
         this.fullName = fullName;
